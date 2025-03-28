@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crime Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    /* Additional styles for suggestions */
+    .suggestions {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 150px;
+      overflow-y: auto;
+      position: absolute;
+      width: 80%;
+      z-index: 2;
+    }
+    .suggestion-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1><i class="fas fa-shield-alt icon"></i> CRIME PREDICTOR</h1>
+    <div class="form-container">
+      <form id="prediction-form" method="POST" action="/predict">
+        <label for="year"><i class="fas fa-calendar icon"></i> Year</label>
+        <select id="year" name="year" required>
+          <option value="" disabled selected>Select Year</option>
+          {% for y in years %}
+            <option value="{{ y }}">{{ y }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="district"><i class="fas fa-city icon"></i> District</label>
+        <select id="district" name="district" required>
+          <option value="" disabled selected>Select District</option>
+          {% for d in districts %}
+            <option value="{{ d }}">{{ d }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="crime_category"><i class="fas fa-exclamation-triangle icon"></i> Crime Category</label>
+        <select id="crime_category" name="crime_category" required>
+          <option value="" disabled selected>Select Crime Category</option>
+          {% for cc in crime_categories %}
+            <option value="{{ cc }}">{{ cc }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="crime_severity"><i class="fas fa-bolt icon"></i> Crime Severity</label>
+        <select id="crime_severity" name="crime_severity" required>
+          <option value="" disabled selected>Select Crime Severity</option>
+          {% for cs in crime_severity %}
+            <option value="{{ cs }}">{{ cs }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit"><i class="fas fa-search icon"></i> Submit</button>
+      </form>
+    </div>
+    
+    <!-- Chatbot Section with Autocomplete Suggestions -->
+    <div class="chat-container">
+      <h3><i class="fas fa-comments icon"></i> Chat with our Assistant</h3>
+      <div id="chat-box"></div>
+      <div style="position: relative;">
+        <input type="text" id="chat-input" placeholder="Type your question here" autocomplete="off">
+        <div id="suggestions" class="suggestions" style="display:none;"></div>
+      </div>
+      <button type="button" onclick="sendChat()"><i class="fas fa-paper-plane icon"></i> Send</button>
+    </div>
+  </div>
+
+  <script>
+    // FAQ list for suggestions – you can update or expand this array as needed.
+    const faqList = [
+      "how do i select the year?",
+      "what is this app for?",
+      "how do i select a district?",
+      "what is crime category?",
+      "how does crime severity affect predictions?",
+      "how to export results?",
+      "what does crime rate mean?",
+      "how accurate is the prediction?",
+      "can i see analytics?",
+      "what if my question is not listed?",
+      "how does the chatbot work?",
+      "can i get help on using the app?"
+    ];
+
+    const chatInput = document.getElementById("chat-input");
+    const suggestionsBox = document.getElementById("suggestions");
+
+    // Show suggestions as user types
+    chatInput.addEventListener("input", function() {
+      const query = this.value.toLowerCase();
+      suggestionsBox.innerHTML = "";
+      if (query.length === 0) {
+        suggestionsBox.style.display = "none";
+        return;
+      }
+      const filtered = faqList.filter(q => q.includes(query));
+      if (filtered.length > 0) {
+        filtered.forEach(q => {
+          const div = document.createElement("div");
+          div.classList.add("suggestion-item");
+          div.textContent = q;
+          div.onclick = function() {
+            chatInput.value = q;
+            suggestionsBox.style.display = "none";
+          };
+          suggestionsBox.appendChild(div);
+        });
+        suggestionsBox.style.display = "block";
+      } else {
+        suggestionsBox.style.display = "none";
+      }
+    });
+
+    // Hide suggestions if clicked outside
+    document.addEventListener("click", function(event) {
+      if (!chatInput.contains(event.target) && !suggestionsBox.contains(event.target)) {
+        suggestionsBox.style.display = "none";
+      }
+    });
+
+    function sendChat() {
+      const message = chatInput.value;
+      if (!message) return;
+
+      const chatBox = document.getElementById("chat-box");
+      chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+      chatInput.value = "";
+      suggestionsBox.style.display = "none";
+
+      // Send message to chatbot route
+      fetch('/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        chatBox.innerHTML += `<p><strong>Assistant:</strong> ${data.response}</p>`;
+      })
+      .catch(error => {
+        chatBox.innerHTML += `<p><strong>Assistant:</strong> Sorry, I encountered an error.</p>`;
+      });
+    }
+  </script>
+</body>
+</html>

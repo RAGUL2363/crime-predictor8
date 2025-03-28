@@ -1,0 +1,174 @@
+/* static/style.css */
+
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: url('/static/crime-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+/* Dark overlay */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+
+/* Main container */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 50px auto;
+  background: rgba(255,255,255,0.95);
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Heading */
+h1 {
+  text-transform: uppercase;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+/* Form styling */
+.form-container label {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+  display: block;
+}
+
+.form-container select, .form-container input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1em;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+/* Button styling */
+button {
+  font-size: 1.2em;
+  padding: 12px;
+  width: 100%;
+  background-color: #007BFF;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Chatbot container */
+.chat-container {
+  margin-top: 30px;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.chat-container h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+#chat-box {
+  height: 150px;
+  overflow-y: auto;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#chat-box p {
+  margin: 5px 0;
+}
+
+#chat-input {
+  width: 80%;
+  padding: 8px;
+  font-size: 1em;
+}
+
+.chat-container button {
+  width: 18%;
+  font-size: 1em;
+  margin-left: 2%;
+}
+
+/* Result container styling */
+.result-container {
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.result-container hr {
+  margin: 10px 0;
+}
+
+/* Charts section */
+.charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+}
+
+.chart {
+  flex: 1 1 45%;
+  text-align: center;
+}
+
+.chart img, .chart iframe {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Export and Back buttons */
+.export-btn, .back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+.back-btn {
+  background-color: #007BFF;
+}
+
+/* Icon styling */
+.icon {
+  margin-right: 8px;
+  color: #007BFF;
+  font-size: 1.3em;
+}

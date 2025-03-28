@@ -1,0 +1,58 @@
+<!-- templates/results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1><i class="fas fa-chart-bar icon"></i> Prediction Summary</h1>
+    <div class="result-container">
+      <p><strong>Year:</strong> {{ selected.year }}</p>
+      <p><strong>District:</strong> {{ selected.district }}</p>
+      <p><strong>Crime Category:</strong> {{ selected.crime_category }}</p>
+      <p><strong>Crime Severity:</strong> {{ selected.crime_severity }}</p>
+      <hr>
+      <p><strong>Predicted Cases:</strong> {{ selected.predicted_cases }}</p>
+      <p><strong>Crime Rate:</strong> {{ selected.crime_rate }}</p>
+      <p><strong>Crime Rate Category:</strong> {{ selected.crime_rate_class }}</p>
+      <p><strong>Crime Location:</strong> {{ selected.crime_location }}</p>
+      <p><strong>Festival/Event:</strong> {{ selected.festival_event }}</p>
+      <br>
+      <a href="/export_csv" class="export-btn">Export Result as CSV</a>
+    </div>
+    
+    <h2>Analytics</h2>
+    <div class="charts">
+      <div class="chart">
+        <h3>Crime Trend</h3>
+        <img src="{{ url_for('static', filename='trend.png') }}" alt="Crime Trend">
+      </div>
+      <div class="chart">
+        <h3>Top Crime Categories</h3>
+        <img src="{{ url_for('static', filename='top_categories.png') }}" alt="Top Crime Categories">
+      </div>
+      <div class="chart">
+        <h3>Top 5 High Crimes</h3>
+        <img src="{{ url_for('static', filename='top5.png') }}" alt="Top 5 High Crimes">
+      </div>
+      <div class="chart">
+        <h3>Crime Breakdown</h3>
+        <img src="{{ url_for('static', filename='breakdown.png') }}" alt="Crime Breakdown">
+      </div>
+      <div class="chart">
+        <h3>Heatmap</h3>
+        <iframe src="{{ url_for('static', filename='heatmap.html') }}" width="100%" height="300" frameborder="0"></iframe>
+      </div>
+    </div>
+    <br>
+    <a href="/" class="back-btn">Back to Home</a>
+  </div>
+</body>
+</html>
